@@ -1,7 +1,7 @@
-all: main.c eval.c
-	cc main.c eval.c -o main -g -lm
+all: main.c
+	cc main.c -o main
 debug:
-	make all
+	cc main.c -o main -g
 	gdb main
 run:
 	make all

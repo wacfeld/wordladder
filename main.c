@@ -91,19 +91,22 @@ void putchain(int i) // print a chain of backreferences
     {
         printf("%s <- ", dict[i]);
         i = back[i];
-    } while(i != -1);
+    } while(back[i] != i);
+    printf("%s\n\n", dict[i]);
 }
 
 void bfsearch()
 {
 
+    puts("starting bfsearch");
+    qbeg=0, qend=0;
     enqueue(from); // put start in queue
-    back[from] = -1; // end the chain of backreferences
+    back[from] = from; // end the chain of backreferences
 
     while(qbeg != qend) // while there are still viable nodes to search
     {
         int i = dequeue();
-        if(strcmp(dict[i], dict[to]) == 0) // found the target word
+        if(i == to) // found the target word
         {
             putchain(i);
         }
@@ -111,7 +114,7 @@ void bfsearch()
         {
             for(int j = 0; j < dlen; j++)
             {
-                if(back[j] == -1)
+                if(back[j] != -1)
                 {
                     continue;
                 }
@@ -123,8 +126,18 @@ void bfsearch()
             }
         }
     }
+    // for(int i = 0; i < MAXLEN; i++)
+    // {
+    //     puts(dict[queue[i]]);
+    // }
 
 }
+
+// BFS only finds the shortest path, it will not find all paths in increasing order
+// doing so requires large modifications to the program
+// anyway, man <- mat <- oat <- opt <- apt <- ape
+// which was achieved by deleting words from tentative solutions until i was satisfied that they were actual words
+
 
 // void pstack()
 // {
@@ -187,6 +200,7 @@ int main(int argc, char **argv)
     putd(from);
     putd(to);
 
+    bfsearch();
 
 
 }
